@@ -2,6 +2,7 @@ import pandas as pd
 import os
 pd.set_option('mode.chained_assignment', None)
 
+print('Formating downloaded data ')
 current_directory = os.path.dirname(os.path.realpath(__file__))
 
 df = pd.read_csv(os.path.join(current_directory,'crime_data.csv'), dtype={'TIME OCC': object})
