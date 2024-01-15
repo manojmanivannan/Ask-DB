@@ -8,7 +8,7 @@ then
 	if [ $? -eq 0 ]
 	then
 		echo "Download complete"
-        python3 reformat_datetime.py
+        python3 reformat_data.py
 	else
 		echo "Download failed"
 		exit 1

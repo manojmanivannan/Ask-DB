@@ -1,46 +1,61 @@
-set send_logs_level = 'trace';
+-- set send_logs_level = 'trace';
 
-CREATE database if not exists main;
-
-USE main;
 
 CREATE TABLE IF not EXISTS crime_data
 (
-  dr_no String,
-  date_reported DateTime,
-  date_occured DateTime,
+  dr_no varchar(20),
+  date_reported timestamp,
+  date_occured timestamp,
   time_occured time,
-  area UInt16,
-  area_name String,
-  reported_dist_no UInt16,
-  part_1_2 UInt16,
-  crime_code UInt16,
-  crime_description String,
-  mocodes Nullable(String),
-  victim_age Float,
-  victim_sex Nullable(String),
-  victim_descent Nullable(String),
-  premis_code Nullable(Float),
-  premis_description Nullable(String),
-  weapon_used_code Nullable(Float),
-  weapon_used_description Nullable(String),
-  status_code Nullable(String),
-  status_description String,
-  crime_code_1 Nullable(Float),
-  crime_code_2 Nullable(Float),
-  crime_code_3 Nullable(Float),
-  crime_code_4 Nullable(Float),
-  location String,
-  cross_street Nullable(String),
-  latitude Decimal(8),
-  longitude Decimal(8)
-)
-ENGINE = MergeTree()
-ORDER BY (dr_no)
-TTL toStartOfDay(date_reported) + toIntervalDay(1750) SETTINGS index_granularity = 8192;
+  area int,
+  area_name varchar(30),
+  reported_dist_no int,
+  part_1_2 int,
+  crime_code int,
+  mocodes varchar(60),
+  victim_age int,
+  victim_sex varchar(1),
+  victim_descent varchar(1),
+  premis_code int,
+  premis_description varchar(80),
+  weapon_used_code int,
+  weapon_used_description varchar(50),
+  status_code varchar(2),
+  status_description varchar(20),
+  crime_code_1 int,
+  crime_code_2 int,
+  crime_code_3 int,
+  crime_code_4 int,
+  location varchar(60),
+  cross_street varchar(50),
+  latitude numeric(11,8),
+  longitude numeric(11,8)
+);
 
 
-INSERT INTO crime_data from INFILE '/dataset/crime_data_reformated.csv' FORMAT CSV;
+CREATE TABLE IF not EXISTS crime_code_description
+(
+  crime_code int PRIMARY KEY,
+  crime_description varchar(70)
+);
+
+
+
+
+copy crime_data
+from '/dataset/crime_data_reformated.csv'
+DELIMITER ','
+CSV HEADER;
+
+copy crime_code_description
+from '/dataset/crime_code_description.csv'
+DELIMITER ','
+CSV HEADER;
+
+ALTER TABLE crime_data
+ADD CONSTRAINT fk_crime_code
+FOREIGN KEY (crime_code)
+REFERENCES crime_code_description(crime_code);
 
 
 -- CREATE TABLE IF NOT EXISTS crime_vic_descent

@@ -17,44 +17,45 @@ def img_to_bytes(img_path):
     return encoded
 
 st.set_page_config(
-    page_title="Ativa Ask", 
+    page_title="Ask DB", 
     page_icon='etc/logo.png', 
     layout='wide', 
     initial_sidebar_state='auto')
 
-#'#F2F5F7'>
-st.components.v1.html(f"""
-<html>
-<head><title>Top NavBar</title></head>
-<body bgcolor='#FAFBFC'>
-<table border=0 width="100%">
-<tr><td align=right><img src="data:image/png;base64,{img_to_bytes('./etc/logo.png')}"/></td></tr>
-</table>
-</body>
-</html>
-""")
 
-st.title("Ativa Ask")
+# st.components.v1.html(f"""
+# <html>
+# <head><title>Top NavBar</title></head>
+# <body bgcolor='#FAFBFC'>
+# <table border=0 width="20%">
+# <tr><td align=left><img src="data:image/png;base64,{img_to_bytes('./etc/logo.png')}"/></td></tr>
+# </table>
+# </body>
+# </html>
+# """)
+
+st.title("Ask DB")
 
 
 @st.cache_data
-def load_clickhouse_mock_data():
-    print('Loading clickhouse data')
+def load_postgres_data():
+    
     connection_url = os.getenv("DB_URI")
+    print(f'Loading postgres data using: {connection_url}')
     engine = create_engine(connection_url)
     df = pd.read_sql_query("SELECT * FROM crime_data", engine)
     return df
 
 # st.markdown(markdown_main_content, unsafe_allow_html=True)
 
-# with st.sidebar:
-#     st.markdown(markdown_sidebar_content, unsafe_allow_html=True)
-#     st.sidebar.image('etc/iv_logo.png')
-#     st.sidebar.image('etc/toolbar.png', width=80)
+with st.sidebar:
+    # st.markdown(markdown_sidebar_content, unsafe_allow_html=True)
+    st.sidebar.image('etc/logo.png')
+    # st.sidebar.image('etc/toolbar.png', width=80)
 
 
 if st.toggle("View dataset"):
-    st.dataframe(load_clickhouse_mock_data())
+    st.dataframe(load_postgres_data())
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
