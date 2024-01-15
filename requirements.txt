@@ -1,0 +1,9 @@
+langchain==0.0.348
+langchain_experimental==0.0.45
+openai==1.3.8
+pandas==2.0.3
+psycopg2_binary==2.9.9
+streamlit==1.29.0
+clickhouse-sqlalchemy
+sqlalchemy
+clickhouse-driver

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  chatbot:
+    build: .
+    ports:
+      - '8501:8501'
+    environment:
+      OPENAI_API_KEY: $OPENAI_API_KEY
+      DB_URI: clickhouse://click:house@clickhouse:8123/main
+      PYTHONUNBUFFERED: 1
+      PYTHONIOENCODING: UTF-8
+    depends_on:
+      - clickhouse
+
+  clickhouse:
+    build: ./db
+    # image: clickhouse/clickhouse-server
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      # - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./dataset:/dataset
+    environment:
+      - CLICKHOUSE_USER=click
+      - CLICKHOUSE_PASSWORD=house
