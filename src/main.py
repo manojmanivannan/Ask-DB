@@ -72,7 +72,7 @@ if prompt := st.chat_input():
     db = SQLDatabase.from_uri(os.getenv("DB_URI"))
 
     # Initialize the LLM
-    llm = OpenAI(temperature=0, verbose=True)
+    llm = OpenAI(model_name='gpt-3.5-turbo-instruct',temperature=0, verbose=True)
 
     # Initialize the chain
     db_chain = SQLDatabaseChain.from_llm(llm, db, verbose=True)
