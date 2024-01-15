@@ -48,7 +48,7 @@ DELIMITER ','
 CSV HEADER;
 
 copy crime_code_description
-from '/dataset/crime_code_description.csv'
+from '/dataset/crime_code_description_reformated.csv'
 DELIMITER ','
 CSV HEADER;
 
