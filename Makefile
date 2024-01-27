@@ -1,5 +1,6 @@
 default: usage
 
+
 all: 
 	make download
 	make dk_start
@@ -7,10 +8,19 @@ all:
 download:
 	$(SCRIPT)
 
+
+
 dk_start:
+	docker network create my_external_network
+	docker run -d --network=my_external_network -v ollama:/root/.ollama  -p 11434:11434 --name ollama ollama/ollama
+	docker exec ollama ollama pull llama2:7b
 	docker-compose up --build -d
 dk_stop:
 	docker-compose down --volumes --remove-orphans --rmi all
+	docker stop ollama
+	docker rm ollama
+	docker network rm my_external_network
+
 
 
 # Determine the operating system

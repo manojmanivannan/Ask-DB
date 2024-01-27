@@ -1,7 +1,8 @@
 import os
 import streamlit as st
-from langchain.llms import OpenAI
-from langchain.utilities import SQLDatabase
+from langchain_community.llms import OpenAI, Ollama
+
+from langchain_community.utilities import SQLDatabase
 from langchain_experimental.sql import SQLDatabaseChain
 from openai._exceptions import AuthenticationError
 from psycopg2.errors import SyntaxError, OperationalError
@@ -43,7 +44,7 @@ def load_postgres_data():
     connection_url = os.getenv("DB_URI")
     print(f'Loading postgres data using: {connection_url}')
     engine = create_engine(connection_url)
-    df = pd.read_sql_query("SELECT * FROM crime_data", engine)
+    df = pd.read_sql_query("SELECT * FROM crime_data limit 100", engine)
     return df
 
 # st.markdown(markdown_main_content, unsafe_allow_html=True)
@@ -64,19 +65,17 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
 if prompt := st.chat_input():
-    if not os.getenv("OPENAI_API_KEY"):
-        st.info("Please add your OpenAI API key to the .env.")
-        st.stop()
-
 
     # Eastablish connection to the clickhouse database
     db = SQLDatabase.from_uri(os.getenv("DB_URI"))
 
     # Initialize the LLM
-    llm = OpenAI(model_name='gpt-3.5-turbo-instruct',temperature=0, verbose=True)
+    # llm = OpenAI(model_name='gpt-3.5-turbo-instruct',temperature=0, verbose=True)
+    llm = Ollama(model=os.getenv("OLLAMA_MODEL"))
+    llm.base_url=os.getenv("OLLAMA_URI")
 
     # Initialize the chain
-    db_chain = SQLDatabaseChain.from_llm(llm, db, verbose=True)
+    db_chain = SQLDatabaseChain.from_llm(llm, db, verbose=True,use_query_checker=True, top_k=3)
 
     # Get user input
     st.session_state.messages.append({"role": "user", "content": prompt})
