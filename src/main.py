@@ -43,7 +43,7 @@ def load_postgres_data():
     connection_url = os.getenv("DB_URI")
     print(f'Loading postgres data using: {connection_url}')
     engine = create_engine(connection_url)
-    df = pd.read_sql_query("SELECT * FROM crime_data", engine)
+    df = pd.read_sql_query("SELECT * FROM crime_data limit 100", engine)
     return df
 
 # st.markdown(markdown_main_content, unsafe_allow_html=True)
