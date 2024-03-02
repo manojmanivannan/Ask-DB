@@ -25,4 +25,4 @@ SQLResult: [('VEHICLE - STOLEN', 3788), ('BATTERY - SIMPLE ASSAULT', 2875), ('BU
 
 ## Run locally
 
-Depending on the model, say if you want to use `llama2:7b`, the modify the `.env` file and `Makefile` to the preferred model name, and simply run `make dk_start`
+Depending on the model, say if you want to use `llama2:7b`, the modify the `.env` file to the preferred model name, and simply run `make dk_start`
