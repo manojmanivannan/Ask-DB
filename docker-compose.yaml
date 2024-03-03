@@ -7,7 +7,7 @@ services:
       - '8501:8501'
     environment:
       DB_URI: postgresql+psycopg2://postgres:postgres@db/postgres
-      OLLAMA_URI: http://ollama:11434 #https://bypjuazedmwwjc-11434.proxy.runpod.net #service like runpod 
+      OLLAMA_URI: $OLLAMA_URI #https://bypjuazedmwwjc-11434.proxy.runpod.net #service like runpod 
       OLLAMA_MODEL: $OLLAMA_MODEL
       OPENAI_API_KEY: $OPENAI_API_KEY
       STREAMLIT_SERVER_MAX_MESSAGE_SIZE: 250

@@ -23,14 +23,15 @@ download:
 
 dk_start:
 	docker network create my_external_network
-	docker run -d --network=my_external_network -v ollama:/root/.ollama  -p 11434:11434 --name ollama ollama/ollama
-	docker exec ollama ollama pull $(MODEL_NAME)
+#	docker run -d --network=my_external_network -v ollama:/root/.ollama  -p 11434:11434 --name ollama ollama/ollama
+#	docker exec ollama ollama pull $(MODEL_NAME)
 	docker-compose up --build -d
 dk_stop:
 	docker-compose down --volumes --remove-orphans --rmi all
-	docker stop ollama
-	docker rm ollama
 	docker network rm my_external_network
+#	docker stop ollama
+#	docker rm ollama
+	
 
 
 
