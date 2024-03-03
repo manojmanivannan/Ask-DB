@@ -7,8 +7,9 @@ services:
       - '8501:8501'
     environment:
       DB_URI: postgresql+psycopg2://postgres:postgres@db/postgres
-      OLLAMA_URI: http://ollama:11434 # or https://v7sp3cyxby26bb-11434.proxy.runpod.net service like runpod
+      OLLAMA_URI: http://ollama:11434 #https://bypjuazedmwwjc-11434.proxy.runpod.net #service like runpod 
       OLLAMA_MODEL: $OLLAMA_MODEL
+      OPENAI_API_KEY: $OPENAI_API_KEY
       STREAMLIT_SERVER_MAX_MESSAGE_SIZE: 250
       PYTHONUNBUFFERED: 1
       PYTHONIOENCODING: UTF-8
@@ -40,3 +41,4 @@ networks:
   external_network:
     name: my_external_network
     external: true
+

@@ -23,4 +23,4 @@ COPY ./src/main.py /app/
 COPY ./etc/ /app/etc/
 # COPY ./.streamlit/config.toml /app/.streamlit/
 WORKDIR /app
-ENTRYPOINT ["/venv/bin/streamlit","run","main.py"]
+ENTRYPOINT ["/venv/bin/streamlit","run","main.py","--browser.gatherUsageStats","false"]
